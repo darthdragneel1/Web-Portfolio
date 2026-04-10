@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills & Education | Abhishiek Kurra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+        .skill-tag {
+            display: inline-block;
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0.3rem;
+        }
+        .edu-item {
+            background: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(100, 255, 218, 0.05);
+        }
+        .edu-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">AK.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="experience.html">Experience</a>
+            <a href="skills.html" class="active">Skills</a>
+            <a href="projects.html">Projects</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2 class="section-title">Core Competencies</h2>
+        <div class="skills-grid">
+            <div class="card reveal">
+                <h3>Languages</h3>
+                <div style="margin-top: 1rem;">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">JavaScript (ES6+)</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">C#</span>
+                </div>
+            </div>
+            <div class="card reveal">
+                <h3>Automation</h3>
+                <div style="margin-top: 1rem;">
+                    <span class="skill-tag">Playwright</span>
+                    <span class="skill-tag">Selenium</span>
+                    <span class="skill-tag">Puppeteer</span>
+                    <span class="skill-tag">CI/CD (GitHub Actions)</span>
+                </div>
+            </div>
+            <div class="card reveal">
+                <h3>Tools & Frameworks</h3>
+                <div style="margin-top: 1rem;">
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">AWS (S3, Lambda)</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Git</span>
+                </div>
+            </div>
+            <div class="card reveal">
+                <h3>Data Science</h3>
+                <div style="margin-top: 1rem;">
+                    <span class="skill-tag">Pandas / NumPy</span>
+                    <span class="skill-tag">Scikit-Learn</span>
+                    <span class="skill-tag">Tableau</span>
+                    <span class="skill-tag">Statistics</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Education</h2>
+        <div class="edu-item reveal">
+            <div class="edu-header">
+                <div>
+                    <h3>Master of Science in Data Science</h3>
+                    <p style="color: var(--accent);">State University of New York</p>
+                </div>
+                <span style="color: var(--text-dim);">Expected 2026</span>
+            </div>
+            <p style="color: var(--text-dim);">Focusing on Machine Learning, Big Data Analytics, and Statistical Modeling.</p>
+        </div>
+
+        <div class="edu-item reveal">
+            <div class="edu-header">
+                <div>
+                    <h3>Bachelor of Technology in Computer Science</h3>
+                    <p style="color: var(--accent);">Jawaharlal Nehru Technological University</p>
+                </div>
+                <span style="color: var(--text-dim);">2020</span>
+            </div>
+            <p style="color: var(--text-dim);">Core coursework in Algorithms, Database Management Systems, and Software Engineering.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Abhishiek Kurra. Constantly Learning.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://abhishiekkurra.com/sitemap.xml

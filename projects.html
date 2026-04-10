@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Abhishiek Kurra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        .project-content {
+            flex: 1;
+        }
+        .project-tech {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .project-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .project-links a {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">AK.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="experience.html">Experience</a>
+            <a href="skills.html">Skills</a>
+            <a href="projects.html" class="active">Projects</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2 class="section-title">Selected Case Studies</h2>
+        
+        <div class="project-card reveal">
+            <div class="card">
+                <div class="project-content">
+                    <p style="color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-bottom: 0.5rem;">Featured Project</p>
+                    <h3>Power Plant Output Prediction</h3>
+                    <p style="margin-top: 1rem; color: var(--text-dim);">Developed a high-precision regression model to predict the net hourly electrical energy output of a Combined Cycle Power Plant. Analyzed environmental variables using Python and scikit-learn to optimize operational efficiency.</p>
+                    <div class="project-tech">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">Regression</span>
+                        <span class="skill-tag">Data Visualization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card reveal">
+            <div class="card">
+                <div class="project-content">
+                    <p style="color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-bottom: 0.5rem;">Enterprise Database</p>
+                    <h3>Library Management System</h3>
+                    <p style="margin-top: 1rem; color: var(--text-dim);">Architected a robust relational database for tracking book circulation, user memberships, and fine management. Implemented complex SQL procedures to handle concurrent transactions and ensure data integrity.</p>
+                    <div class="project-tech">
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">Java (JDBC)</span>
+                        <span class="skill-tag">Database Normalization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card reveal">
+            <div class="card">
+                <div class="project-content">
+                    <p style="color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-bottom: 0.5rem;">Automation Framework</p>
+                    <h3>Notular EMR Bridge</h3>
+                    <p style="margin-top: 1rem; color: var(--text-dim);">Built a HIPAA-compliant data bridge using Playwright to automate the transfer of patient information from intake forms into Electronic Medical Records. Reduced processing time by 85%.</p>
+                    <div class="project-tech">
+                        <span class="skill-tag">Playwright</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">HIPAA Security</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Abhishiek Kurra. Turning Ideas into Reality.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience | Abhishiek Kurra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .exp-item {
+            margin-bottom: 4rem;
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--secondary-bg);
+        }
+        .exp-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 4px solid var(--primary-bg);
+        }
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        .company {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .roles {
+            display: block;
+            margin-top: 0.5rem;
+        }
+        .bullet-points {
+            list-style: none;
+            color: var(--text-dim);
+            margin-top: 1rem;
+        }
+        .bullet-points li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .bullet-points li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">AK.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="experience.html" class="active">Experience</a>
+            <a href="skills.html">Skills</a>
+            <a href="projects.html">Projects</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2 class="section-title">Professional Journey</h2>
+        
+        <div class="timeline">
+            <!-- Notular -->
+            <div class="exp-item reveal">
+                <div class="exp-header">
+                    <div>
+                        <h3>Implementation Analyst & Developer</h3>
+                        <span class="company">Notular</span>
+                    </div>
+                    <span style="color: var(--text-dim);">Aug 2023 – Present</span>
+                </div>
+                <ul class="bullet-points">
+                    <li>Engineering and maintaining complex EMR automation workflows using Playwright, ensuring 99.9% reliability in medical data processing.</li>
+                    <li>Developed responsive patient intake interfaces with React and Tailwind CSS, prioritizing HIPAA compliance and UX.</li>
+                    <li>Implemented robust CI/CD pipelines and automated testing suites, reducing deployment-related regressions by 40%.</li>
+                    <li>Collaborating with cross-functional teams to integrate AWS services for scalable data storage and processing.</li>
+                </ul>
+            </div>
+
+            <!-- VWSPC -->
+            <div class="exp-item reveal">
+                <div class="exp-header">
+                    <div>
+                        <h3>Full Stack Developer (Contract)</h3>
+                        <span class="company">Visiting Wound Specialists & Primary Care</span>
+                    </div>
+                    <span style="color: var(--text-dim);">Jan 2023 – July 2023</span>
+                </div>
+                <ul class="bullet-points">
+                    <li>Led the migration of legacy patient intake systems to a modern web-based framework, improving data accuracy by 60%.</li>
+                    <li>Built automated form validation logic that streamlined internal review processes for over 500+ patients monthly.</li>
+                    <li>Designed and implemented the core website architecture, focusing on medical SEO and local patient accessibility.</li>
+                </ul>
+            </div>
+
+            <!-- Q9 Software -->
+            <div class="exp-item reveal">
+                <div class="exp-header">
+                    <div>
+                        <h3>Software Developer Intern</h3>
+                        <span class="company">Q9 Software Solutions</span>
+                    </div>
+                    <span style="color: var(--text-dim);">June 2019 – Aug 2019</span>
+                </div>
+                <ul class="bullet-points">
+                    <li>Contributed to the development of a large-scale enterprise resource planning (ERP) system using .NET and SQL Server.</li>
+                    <li>Optimized SQL queries for reporting modules, resulting in a 30% reduction in data retrieval times.</li>
+                    <li>Assisted in front-end UI updates and bug fixing for the core management portal.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Abhishiek Kurra. Built with Code & Data.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Person",
+  "name": "Abhishiek Kurra",
+  "url": "https://abhishiekkurra.com/",
+  "image": "https://abhishiekkurra.com/assets/hero-bg.png",
+  "jobTitle": "Implementation Analyst & Developer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Notular"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "State University of New York"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/abhishiekkurra",
+    "https://github.com/abhishiekkurra"
+  ],
+  "knowsAbout": ["EMR Automation", "Playwright", "Machine Learning", "SQL", "Full Stack Development"]
+}
