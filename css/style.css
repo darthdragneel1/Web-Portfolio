@@ -167,6 +167,29 @@ footer {
     font-size: 0.9rem;
 }
 
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.social-link {
+    font-size: 1.8rem;
+    color: var(--text-dim);
+    transition: var(--transition);
+}
+
+.social-link:hover {
+    color: var(--accent);
+    transform: translateY(-5px);
+}
+
+.footer-icon {
+    color: var(--accent);
+    margin: 0 5px;
+}
+
 /* Animations */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
