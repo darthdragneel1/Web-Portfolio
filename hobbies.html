@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hobbies & Interests | Abhishiek Kurra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+        .hobby-card {
+            background: var(--secondary-bg);
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid rgba(100, 255, 218, 0.05);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .hobby-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            background: rgba(100, 255, 218, 0.02);
+        }
+        .hobby-card i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        .library-section {
+            margin-top: 5rem;
+        }
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .book-card {
+            background: rgba(17, 34, 64, 0.5);
+            padding: 2rem;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+        }
+        .book-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .book-card p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">AK.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="experience.html">Experience</a>
+            <a href="skills.html">Skills</a>
+            <a href="projects.html">Projects</a>
+            <a href="hobbies.html" class="active">Hobbies</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2 class="section-title">Beyond the Code</h2>
+        <p style="color: var(--text-dim); max-width: 700px; margin-bottom: 4rem;">In addition to building software and analyzing data, I am passionate about exploring the world through literature, cinematic storytelling, and the open road.</p>
+
+        <div class="hobby-grid">
+            <div class="hobby-card reveal">
+                <i class="fa-solid fa-car"></i>
+                <h3>The Open Road</h3>
+                <p style="color: var(--text-dim); margin-top: 1rem;">Passion for driving and exploring new routes. I find clarity and inspiration during long road trips and the freedom of the open highway.</p>
+            </div>
+            <div class="hobby-card reveal">
+                <i class="fa-solid fa-tv"></i>
+                <h3>Cinematic Stories</h3>
+                <p style="color: var(--text-dim); margin-top: 1rem;">An avid fan of anime and modern animation. I appreciate the high-concept storytelling, world-building, and artistic expression found in the medium.</p>
+            </div>
+            <div class="hobby-card reveal">
+                <i class="fa-solid fa-terminal"></i>
+                <h3>Digital Craft</h3>
+                <p style="color: var(--text-dim); margin-top: 1rem;">Coding isn't just a profession; it's a creative outlet. I enjoy building side projects, exploring new frameworks, and solving technical puzzles for fun.</p>
+            </div>
+        </div>
+
+        <div class="library-section">
+            <h2 class="section-title">Literary Worlds</h2>
+            <div class="book-list">
+                <!-- Fiction -->
+                <div class="book-card reveal">
+                    <span class="tag">Science Fiction</span>
+                    <h4>Project Hail Mary</h4>
+                    <p>By Andy Weir. A thrilling deep-dive into scientific problem-solving and cosmic exploration.</p>
+                </div>
+                <div class="book-card reveal">
+                    <span class="tag">Fantasy Series</span>
+                    <h4>A Song of Ice and Fire</h4>
+                    <p>By George R.R. Martin. Unmatched political intrigue and complex world-building.</p>
+                </div>
+                <div class="book-card reveal">
+                    <span class="tag">Hard Sci-Fi</span>
+                    <h4>Remembrance of Earth's Past</h4>
+                    <p>By Liu Cixin. A grand, philosophical journey through space and time, starting with The Three-Body Problem.</p>
+                </div>
+                <div class="book-card reveal">
+                    <span class="tag">Literature</span>
+                    <h4>Light Novel Series</h4>
+                    <p>Exploring various diverse narratives and artistic styles within modern Japanese literature.</p>
+                </div>
+                <!-- Non-Fiction -->
+                <div class="book-card reveal" style="background: rgba(100, 255, 218, 0.05);">
+                    <span class="tag" style="background: var(--accent); color: var(--primary-bg);">Favorite</span>
+                    <h4>Leonardo da Vinci</h4>
+                    <p>By Walter Isaacson. A profound look at the ultimate polymath, blending art, science, and curiosity.</p>
+                </div>
+                <div class="book-card reveal">
+                    <span class="tag">Theoretical Physics</span>
+                    <h4>The Theory of Everything</h4>
+                    <p>By Stephen Hawking. Exploring the fundamental nature of the universe and the origin of existence.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Abhishiek Kurra. <i class="fa-solid fa-book-open footer-icon"></i> Discovering New Perspectives.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
