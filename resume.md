@@ -1,5 +1,5 @@
 # Abhishiek Kurra
-**Detroit, MI | +1-240-449-4495 | abhishekkurra1999@gmail.com | [LinkedIn](https://www.linkedin.com/in/abhishiekkurra) | [GitHub](https://github.com/abhishiekkurra)**
+**Detroit, MI | +1-240-449-4495 | abhishekkurra1999@gmail.com | [LinkedIn](https://www.linkedin.com/in/abhishiek-kurra-017a8616a/) | [GitHub](https://github.com/darthdragneel1/)**
 
 ## Summary
 Developer with experience leading end-to-end development of HIPAA-compliant platforms and AI-driven systems. Delivered a custom web application that cut clinician documentation time by 2.5 hours. Proficient in Python, SQL, FastAPI, React, and machine-learning pipelines, with a strong background in predictive modeling and system architecture. Seeking to apply this expertise to create scalable, data-driven solutions that improve operational efficiency.
