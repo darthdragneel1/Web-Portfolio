@@ -3,68 +3,547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hobbies & Interests | Abhishiek Kurra</title>
+    <title>Hobbies &amp; Interests | Abhishiek Kurra</title>
+    <meta name="description" content="Beyond the code — discover the passions, travels, books, anime, and creative projects that inspire Abhishiek Kurra.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS for the travel map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <style>
-        .hobby-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 5rem;
+
+        /* ── Accordion shell ────────────────────────── */
+        .hobby-accordion {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
-        .hobby-card {
+
+        .hobby-item {
+            border-radius: 14px;
+            border: 1px solid rgba(100, 255, 218, 0.08);
             background: var(--secondary-bg);
-            padding: 3rem;
-            border-radius: 12px;
-            border: 1px solid rgba(100, 255, 218, 0.05);
-            transition: var(--transition);
+            overflow: hidden;
+            transition: border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .hobby-item.active {
+            border-color: rgba(100, 255, 218, 0.35);
+            box-shadow: 0 0 36px rgba(100, 255, 218, 0.05);
+        }
+
+        /* ── Accordion button ───────────────────────── */
+        .hobby-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 1.75rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            text-align: left;
+            color: var(--text-main);
+            transition: background 0.2s ease;
+        }
+
+        .hobby-btn:hover { background: rgba(100, 255, 218, 0.03); }
+
+        .hobby-btn-left {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .hobby-icon-wrap {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: rgba(100, 255, 218, 0.07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.3s ease;
+        }
+
+        .hobby-item.active .hobby-icon-wrap { background: rgba(100, 255, 218, 0.14); }
+
+        .hobby-icon-wrap i {
+            font-size: 1.35rem;
+            color: var(--accent);
+        }
+
+        .hobby-btn-text h3 {
+            color: var(--white);
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .hobby-btn-text p {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .hobby-chevron {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1),
+                        color 0.3s ease;
+        }
+
+        .hobby-item.active .hobby-chevron {
+            transform: rotate(180deg);
+            color: var(--accent);
+        }
+
+        /* ── Panel (expand / collapse) ──────────────── */
+        .hobby-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hobby-item.active .hobby-panel { max-height: 1500px; }
+
+        .hobby-panel-inner {
+            padding: 1.5rem 2rem 2.25rem;
+            border-top: 1px solid rgba(100, 255, 218, 0.07);
+        }
+
+        /* ── Travel Map ─────────────────────────────── */
+        #travel-map {
+            height: 420px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        /* ── Map navy tinting ─────────────────────────
+           Two-layer approach for cross-browser reliability:
+           1. Filter on the actual tile <img> elements
+           2. ::after overlay behind markers (z-index 500 = above tiles 200, below markers 600) */
+        #travel-map .leaflet-tile {
+            filter: sepia(1) hue-rotate(185deg) saturate(0.65) brightness(0.5) !important;
+        }
+
+        #travel-map {
+            position: relative; /* needed for ::after stacking */
+        }
+
+        #travel-map::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 25, 47, 0.45);
+            pointer-events: none;
+            z-index: 500;
+            border-radius: 10px;
+        }
+
+        .map-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid rgba(10, 25, 47, 0.85);
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.65);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .map-dot:hover { transform: scale(1.5); }
+
+        .leaflet-popup-content-wrapper {
+            background: var(--secondary-bg) !important;
+            color: var(--white) !important;
+            border: 1px solid rgba(100, 255, 218, 0.2) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        .leaflet-popup-tip { background: var(--secondary-bg) !important; }
+
+        .map-caption {
+            margin-top: 0.9rem;
+            font-size: 0.78rem;
+            color: var(--text-dim);
             text-align: center;
         }
-        .hobby-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            background: rgba(100, 255, 218, 0.02);
-        }
-        .hobby-card i {
-            font-size: 3rem;
-            color: var(--accent);
+
+        /* ── Cinematic tabs ─────────────────────────── */
+        .tab-bar {
+            display: flex;
+            gap: 0.5rem;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
-        .library-section {
-            margin-top: 5rem;
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid rgba(100, 255, 218, 0.15);
+            color: var(--text-dim);
+            padding: 0.45rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
         }
-        .book-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .book-card {
-            background: rgba(17, 34, 64, 0.5);
-            padding: 2rem;
-            border-left: 4px solid var(--accent);
-            border-radius: 4px;
-        }
-        .book-card h4 {
+
+        .tab-btn:hover {
             color: var(--accent);
+            border-color: rgba(100, 255, 218, 0.4);
+        }
+
+        .tab-btn.active {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .cinematic-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .cinematic-item {
+            background: rgba(10, 25, 47, 0.55);
+            border: 1px solid rgba(100, 255, 218, 0.06);
+            border-radius: 8px;
+            padding: 0.95rem 1.25rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .cinematic-item:hover { border-color: rgba(100, 255, 218, 0.2); }
+
+        .cinematic-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.35rem;
+            gap: 1rem;
+        }
+
+        .cinematic-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: var(--white);
+            font-size: 0.95rem;
+        }
+
+        .cinematic-year {
+            font-size: 0.75rem;
+            color: var(--accent);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .cinematic-note {
+            color: var(--text-dim);
+            font-size: 0.84rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ── Digital Craft ──────────────────────────── */
+        .craft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .craft-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            background: rgba(10, 25, 47, 0.55);
+            border: 1px solid rgba(100, 255, 218, 0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        .craft-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            background: rgba(100, 255, 218, 0.03);
+            color: var(--text-main);
+        }
+
+        .craft-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(100, 255, 218, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .craft-card-icon i { font-size: 1.2rem; color: var(--accent); }
+
+        .craft-card h4 {
+            color: var(--white);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .craft-card p {
+            color: var(--text-dim);
+            font-size: 0.84rem;
+            margin: 0;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .craft-link-label {
+            font-size: 0.78rem;
+            color: var(--accent);
+            margin-top: 0.25rem;
+        }
+
+        /* ── Literary Worlds ────────────────────────── */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.1rem;
+        }
+
+        .book-card {
+            background: rgba(10, 25, 47, 0.55);
+            border-left: 3px solid rgba(100, 255, 218, 0.25);
+            border-radius: 0 8px 8px 0;
+            padding: 1.15rem 1.4rem;
+            transition: border-color 0.25s ease;
+        }
+
+        .book-card:hover { border-left-color: var(--accent); }
+
+        .book-card--fav {
+            background: rgba(100, 255, 218, 0.04);
+            border-left-color: var(--accent);
+        }
+
+        .book-card h4 {
+            color: var(--white);
+            font-size: 0.95rem;
+            margin: 0.4rem 0 0.2rem;
+        }
+
+        .book-author {
+            color: var(--accent);
+            font-size: 0.78rem;
             margin-bottom: 0.5rem;
         }
-        .book-card p {
-            font-size: 0.9rem;
+
+        .book-card p:not(.book-author) {
             color: var(--text-dim);
+            font-size: 0.83rem;
+            margin: 0;
+            line-height: 1.5;
         }
+
         .tag {
             display: inline-block;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--accent);
-            margin-bottom: 0.5rem;
-            border: 1px solid var(--accent);
+            border: 1px solid rgba(100, 255, 218, 0.3);
             padding: 2px 8px;
             border-radius: 4px;
         }
+
+        .tag--fav {
+            background: var(--accent);
+            color: var(--primary-bg);
+            border-color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ── Music / Spotify ─────────────────────────── */
+        .spotify-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .spotify-intro {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            text-align: center;
+            max-width: 420px;
+            line-height: 1.7;
+        }
+
+        .spotify-cta {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+            padding: 1.75rem 2.25rem;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #0c1a0e 0%, #122014 40%, #0c1a0e 100%);
+            border: 1px solid rgba(29, 185, 84, 0.28);
+            text-decoration: none;
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            box-shadow:
+                0 0 0 1px rgba(29,185,84,0.06),
+                0 0 40px rgba(29,185,84,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.03);
+            transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.3s ease;
+        }
+
+        .spotify-cta:hover {
+            border-color: rgba(29,185,84,0.65);
+            box-shadow:
+                0 0 0 1px rgba(29,185,84,0.2),
+                0 0 50px rgba(29,185,84,0.22),
+                0 0 100px rgba(29,185,84,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+            transform: translateY(-5px) scale(1.015);
+            color: #fff;
+        }
+
+        /* shimmer sweep */
+        .spotify-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(29,185,84,0.09) 50%,
+                transparent 70%
+            );
+            transform: translateX(-120%);
+            transition: transform 0s;
+        }
+
+        .spotify-cta:hover::before {
+            animation: spotifyShimmer 1.4s ease-in-out infinite;
+        }
+
+        @keyframes spotifyShimmer {
+            0%   { transform: translateX(-120%); }
+            100% { transform: translateX(120%); }
+        }
+
+        .spotify-logo-wrap {
+            flex-shrink: 0;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: rgba(29,185,84,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(29,185,84,0.2);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .spotify-cta:hover .spotify-logo-wrap {
+            background: rgba(29,185,84,0.22);
+            transform: scale(1.08) rotate(-8deg);
+        }
+
+        .spotify-logo-wrap i {
+            font-size: 2rem;
+            color: #1DB954;
+        }
+
+        .spotify-center {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .spotify-tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: #1DB954;
+            font-weight: 600;
+        }
+
+        .spotify-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .spotify-sub {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.38);
+        }
+
+        /* animated equaliser bars */
+        .spotify-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 30px;
+            flex-shrink: 0;
+        }
+
+        .spotify-bar {
+            width: 4px;
+            background: #1DB954;
+            border-radius: 2px;
+            transform-origin: bottom;
+            animation: spotifyBar 1.3s ease-in-out infinite;
+        }
+
+        .spotify-bar:nth-child(1) { animation-delay: 0.0s; }
+        .spotify-bar:nth-child(2) { animation-delay: 0.2s; }
+        .spotify-bar:nth-child(3) { animation-delay: 0.4s; }
+        .spotify-bar:nth-child(4) { animation-delay: 0.1s; }
+        .spotify-bar:nth-child(5) { animation-delay: 0.3s; }
+
+        @keyframes spotifyBar {
+            0%, 100% { height: 30%;  opacity: 0.5; }
+            50%       { height: 100%; opacity: 1.0; }
+        }
+
+        .spotify-arrow {
+            position: absolute;
+            bottom: 1rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: rgba(29,185,84,0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: color 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .spotify-cta:hover .spotify-arrow {
+            opacity: 1;
+            color: #1DB954;
+        }
+
     </style>
 </head>
 <body>
@@ -82,62 +561,151 @@
 
     <main class="container">
         <h2 class="section-title">Beyond the Code</h2>
-        <p style="color: var(--text-dim); max-width: 700px; margin-bottom: 4rem;">In addition to building software and analyzing data, I am passionate about exploring the world through literature, cinematic storytelling, and the open road.</p>
+        <p style="color: var(--text-dim); max-width: 640px; margin-bottom: 4rem; line-height: 1.85;">
+            A developer is more than their stack. Here's a look at the passions, stories, and creative experiments that keep me curious and inspired outside of work.
+        </p>
 
-        <div class="hobby-grid">
-            <div class="hobby-card reveal">
-                <i class="fa-solid fa-car"></i>
-                <h3>The Open Road</h3>
-                <p style="color: var(--text-dim); margin-top: 1rem;">Passion for driving and exploring new routes. I find clarity and inspiration during long road trips and the freedom of the open highway.</p>
-            </div>
-            <div class="hobby-card reveal">
-                <i class="fa-solid fa-tv"></i>
-                <h3>Cinematic Stories</h3>
-                <p style="color: var(--text-dim); margin-top: 1rem;">An avid fan of anime and modern animation. I appreciate the high-concept storytelling, world-building, and artistic expression found in the medium.</p>
-            </div>
-            <div class="hobby-card reveal">
-                <i class="fa-solid fa-terminal"></i>
-                <h3>Digital Craft</h3>
-                <p style="color: var(--text-dim); margin-top: 1rem;">Coding isn't just a profession; it's a creative outlet. I enjoy building side projects, exploring new frameworks, and solving technical puzzles for fun.</p>
-            </div>
-        </div>
+        <div class="hobby-accordion">
 
-        <div class="library-section">
-            <h2 class="section-title">Literary Worlds</h2>
-            <div class="book-list">
-                <!-- Fiction -->
-                <div class="book-card reveal">
-                    <span class="tag">Science Fiction</span>
-                    <h4>Project Hail Mary</h4>
-                    <p>By Andy Weir. A thrilling deep-dive into scientific problem-solving and cosmic exploration.</p>
-                </div>
-                <div class="book-card reveal">
-                    <span class="tag">Fantasy Series</span>
-                    <h4>A Song of Ice and Fire</h4>
-                    <p>By George R.R. Martin. Unmatched political intrigue and complex world-building.</p>
-                </div>
-                <div class="book-card reveal">
-                    <span class="tag">Hard Sci-Fi</span>
-                    <h4>Remembrance of Earth's Past</h4>
-                    <p>By Liu Cixin. A grand, philosophical journey through space and time, starting with The Three-Body Problem.</p>
-                </div>
-                <div class="book-card reveal">
-                    <span class="tag">Literature</span>
-                    <h4>Light Novel Series</h4>
-                    <p>Exploring various diverse narratives and artistic styles within modern Japanese literature.</p>
-                </div>
-                <!-- Non-Fiction -->
-                <div class="book-card reveal" style="background: rgba(100, 255, 218, 0.05);">
-                    <span class="tag" style="background: var(--accent); color: var(--primary-bg);">Favorite</span>
-                    <h4>Leonardo da Vinci</h4>
-                    <p>By Walter Isaacson. A profound look at the ultimate polymath, blending art, science, and curiosity.</p>
-                </div>
-                <div class="book-card reveal">
-                    <span class="tag">Theoretical Physics</span>
-                    <h4>The Theory of Everything</h4>
-                    <p>By Stephen Hawking. Exploring the fundamental nature of the universe and the origin of existence.</p>
+            <!-- ── 1. The Open Road ─────────────────────────────── -->
+            <div class="hobby-item reveal" id="item-road">
+                <button class="hobby-btn" id="btn-road" aria-expanded="false" aria-controls="panel-road">
+                    <div class="hobby-btn-left">
+                        <div class="hobby-icon-wrap">
+                            <i class="fa-solid fa-route"></i>
+                        </div>
+                        <div class="hobby-btn-text">
+                            <h3>The Open Road</h3>
+                            <p>Destinations visited, routes driven, and the freedom of the open highway.</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down hobby-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="hobby-panel" id="panel-road" role="region" aria-labelledby="btn-road">
+                    <div class="hobby-panel-inner">
+                        <div id="travel-map"></div>
+                        <p class="map-caption">Click any dot to see the city name. Edit <code>VISITED_CITIES</code> in <code>js/hobbies-data.js</code> to add places.</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- ── 2. Cinematic Stories ─────────────────────────── -->
+            <div class="hobby-item reveal" id="item-cinematic">
+                <button class="hobby-btn" id="btn-cinematic" aria-expanded="false" aria-controls="panel-cinematic">
+                    <div class="hobby-btn-left">
+                        <div class="hobby-icon-wrap">
+                            <i class="fa-solid fa-clapperboard"></i>
+                        </div>
+                        <div class="hobby-btn-text">
+                            <h3>Cinematic Stories</h3>
+                            <p>Favourite movies, anime, and games that left a lasting mark.</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down hobby-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="hobby-panel" id="panel-cinematic" role="region" aria-labelledby="btn-cinematic">
+                    <div class="hobby-panel-inner cinematic-tabs-container">
+                        <div class="tab-bar">
+                            <button class="tab-btn active" data-tab="movies" id="tab-btn-movies">Movies</button>
+                            <button class="tab-btn" data-tab="anime"  id="tab-btn-anime">Anime</button>
+                            <button class="tab-btn" data-tab="games"  id="tab-btn-games">Games</button>
+                        </div>
+                        <div class="cinematic-content" id="cinematic-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 3. Digital Craft ─────────────────────────────── -->
+            <div class="hobby-item reveal" id="item-craft">
+                <button class="hobby-btn" id="btn-craft" aria-expanded="false" aria-controls="panel-craft">
+                    <div class="hobby-btn-left">
+                        <div class="hobby-icon-wrap">
+                            <i class="fa-solid fa-terminal"></i>
+                        </div>
+                        <div class="hobby-btn-text">
+                            <h3>Digital Craft</h3>
+                            <p>Weird, fun, and useful things built with code — because why not?</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down hobby-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="hobby-panel" id="panel-craft" role="region" aria-labelledby="btn-craft">
+                    <div class="hobby-panel-inner">
+                        <div class="craft-grid" id="crafts-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 4. Literary Worlds ───────────────────────────── -->
+            <div class="hobby-item reveal" id="item-books">
+                <button class="hobby-btn" id="btn-books" aria-expanded="false" aria-controls="panel-books">
+                    <div class="hobby-btn-left">
+                        <div class="hobby-icon-wrap">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div class="hobby-btn-text">
+                            <h3>Literary Worlds</h3>
+                            <p>Novels, science fiction, biographies, and literary works that shaped my thinking.</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down hobby-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="hobby-panel" id="panel-books" role="region" aria-labelledby="btn-books">
+                    <div class="hobby-panel-inner">
+                        <div class="books-grid" id="books-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 5. Sound & Soul ──────────────────────────────── -->
+            <div class="hobby-item reveal" id="item-music">
+                <button class="hobby-btn" id="btn-music" aria-expanded="false" aria-controls="panel-music">
+                    <div class="hobby-btn-left">
+                        <div class="hobby-icon-wrap">
+                            <i class="fa-solid fa-headphones"></i>
+                        </div>
+                        <div class="hobby-btn-text">
+                            <h3>Sound &amp; Soul</h3>
+                            <p>Music that sets the mood, fuels focus, and drives every sprint.</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down hobby-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="hobby-panel" id="panel-music" role="region" aria-labelledby="btn-music">
+                    <div class="hobby-panel-inner">
+                        <div class="spotify-wrapper">
+                            <p class="spotify-intro">Find the playlists, albums, and artists that soundtrack my work and free time.</p>
+                            <a  href="https://open.spotify.com/user/314rtbdkruxezvfjqhicvdzie4uq?si=702add28bf444b43"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="spotify-cta"
+                                id="spotify-profile-btn">
+
+                                <div class="spotify-logo-wrap">
+                                    <i class="fa-brands fa-spotify"></i>
+                                </div>
+
+                                <div class="spotify-center">
+                                    <span class="spotify-tag">Open in Spotify</span>
+                                    <span class="spotify-title">Abhishiek Kurra</span>
+                                    <span class="spotify-sub">Playlists &middot; Albums &middot; Artists</span>
+                                </div>
+
+                                <div class="spotify-bars" aria-hidden="true">
+                                    <span class="spotify-bar"></span>
+                                    <span class="spotify-bar"></span>
+                                    <span class="spotify-bar"></span>
+                                    <span class="spotify-bar"></span>
+                                    <span class="spotify-bar"></span>
+                                </div>
+
+                                <span class="spotify-arrow">Visit Profile &rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -145,6 +713,13 @@
         <p>&copy; 2024 Abhishiek Kurra. <i class="fa-solid fa-book-open footer-icon"></i> Discovering New Perspectives.</p>
     </footer>
 
+    <!-- Leaflet JS for travel map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Data file (edit to update content) -->
+    <script src="js/hobbies-data.js"></script>
+    <!-- Hobbies page logic -->
+    <script src="js/hobbies.js"></script>
+    <!-- Global animations -->
     <script src="js/script.js"></script>
 </body>
 </html>

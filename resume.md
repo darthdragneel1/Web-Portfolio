@@ -36,9 +36,24 @@ Developer with experience leading end-to-end development of HIPAA-compliant plat
 
 ## Projects
 
+### Notular EMR Bridge | [notular.net](https://notular.net)
+* Built a HIPAA-compliant data bridge using Playwright to automate the transfer of patient information from intake forms into Electronic Medical Records.
+* Reduced processing time by 85%, improving clinical efficiency and reducing manual data entry errors.
+
+### Establishment and Management of a DBMS for a Library | Aug 2022 - Dec 2022
+* Designed a simple database management system for the library using Design Definition Language (DDL) and Design Manipulation Language (DML) with MySQL.
+
 ### An Exploratory Analysis and Prediction of a Power Plant's Fuel Type | Jan 2023 - May 2023
 * Performed Exploratory Data Analysis (EDA) using DataBricks and Spark DataFrame on the Global Power Plant Database from World Resources Institute.
 * Responsible for Building a Machine Learning model using Liblib in PySpark that can identify and recommend a suitable type of power plant, given various parameters.
 
-### Establishment and Management of a DBMS for a Library | Aug 2022 - Dec 2022
-* Designed a simple database management system for the library using Design Definition Language (DDL) and Design Manipulation Language (DML) with MySQL.
+## Hobbies Page
+
+The Hobbies page (`hobbies.html`) uses an interactive accordion layout with four expandable cards. All content is managed via `js/hobbies-data.js` — no HTML changes needed to add new entries.
+
+| Card | Content | Data key in `hobbies-data.js` |
+|---|---|---|
+| **The Open Road** | Interactive Leaflet world map with visited city dots | `VISITED_CITIES` |
+| **Cinematic Stories** | Tabbed list — Movies / Anime / Games | `CINEMATIC_FAVORITES` |
+| **Digital Craft** | Clickable link cards for coding projects | `DIGITAL_CRAFTS` |
+| **Literary Worlds** | Favourite books and novels | `FAVORITE_BOOKS` |
